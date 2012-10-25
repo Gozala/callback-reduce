@@ -1,0 +1,40 @@
+{
+  "name": "callback-reduce",
+  "id": "callback-reduce",
+  "version": "0.0.1",
+  "description": "Reducible abstraciton for callbacks",
+  "keywords": [
+    "callback",
+    "reduce",
+    "reducible",
+    "stream"
+  ],
+  "author": "Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)",
+  "homepage": "https://github.com/Gozala/callback-reduce",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gozala/callback-reduce.git",
+    "web": "https://github.com/Gozala/callback-reduce"
+  },
+  "bugs": {
+    "url": "http://github.com/Gozala/callback-reduce/issues/"
+  },
+  "devDependencies": {
+    "test": ">=0.4.4",
+    "repl-utils": ">=1.0.0"
+  },
+  "main": "./callback-reduce.js",
+  "scripts": {
+    "test": "node test/test-all.js",
+    "repl": "node node_modules/repl-utils"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/Gozala/callback-reduce/License.md"
+    }
+  ],
+  "dependencies": {
+    "reducers": "~0.1.4"
+  }
+}
