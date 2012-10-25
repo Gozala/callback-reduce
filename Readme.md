@@ -2,8 +2,119 @@
 
 [![Build Status](https://secure.travis-ci.org/Gozala/callback-reduce.png)](http://travis-ci.org/Gozala/callback-reduce)
 
-Reducible abstraciton for callbacks
+Reducers is a great abstraction for working with data sequences eventual or not.
+In fact it's great because API for working with data is same map/reduce
+regardless of weather it's sync or async.
+
+
+```js
+var reduce = require("reducers/reduce")
+var filter = require("reducers/filter")
+var map = require("reducers/map")
+
+// Sync
+reduce(filte(map(array, JSON.parse), isCached), accumulate)
+
+// Async
+reduce(filte(map(stream, JSON.parse), isCached), accumulate)
+```
+
+Another cool concept about reducers is that allows you to work with non sequnce
+values with the same API. It just treats atomic vaules as sequences of themself.
+
+```js
+var reduce = require("reducers/reduce")
+function sum(sequence) {
+  return reduce(sequence, function(result, item) {
+    return result + item
+  }, 0)
+}
+
+reduce(sum(15), console.log, "=>")            // => 15
+reduce(sum([ 15, 3, 7 ]), console.log, "=>")  // => 25
+```
+
+But there are bunch of async APIs around that are designed in terms of:
+do action provide a callback, where you'll handle either error or value.
+
+```js
+var fs = require("fs")
+
+function getPackageName(path, callback) {
+  fs.readFile(path, function(error, buffer) {
+    if (error) return callback(error)
+    var json = JSON.parse(buffer.toString())
+    callback(error, json.name)
+  })
+}
+
+getPackageName("./package.json", console.log) // => "callback-reduce"
+```
+
+Which is ok but not very composable and there is no simple to transform data.
+But with reducers we like the fact of unified API that works on the data
+structures regardless of their nature or timing. This libarray lets you get
+reducible callbacks for callback styled functions!
+
+```js
+var fs = require("fs")
+var map = require("reducers/map")
+var callback = require("callback-reduce")
+var reduce = require("reducers/reduce")
+
+var content = callback(fs.readFile, "./package.json")
+var json = map(map(content, String), JSON.parse)
+var name = map(json, function($) { return $.name })
+
+reduce(name, console.log, "=>")     // => "callback-reduce"
+```
+
+And of course it's lazy and compasable with rest of the API that reducers
+provide. For more complicated example see:
+
+```js
+var print = require("reducers/debug/print")
+
+var fs = require("fs")
+var path = require("path")
+
+var callback = require("./callback")
+var expand = require("reducers/expand")
+var map = require("reducers/map")
+var filter = require("reducers/filter")
+var cache = require("reducers/cache")
+var concat = require("reducers/concat")
+var reduce = require("reducers/reduce")
+
+
+function lstree(root) {
+  // Get sequence of directory entries, also we cache it as we read
+  // from it several times.
+  var entries = cache(callback(fs.readdir, root))
+  // Resolve entries to the current path.
+  var paths = map(entries, path.join.bind(path, root))
+  // Expand sequence of paths, to associated stats. Unfortunately node does not
+  // keeps path info in the stats so we need to hack this up. Otherwise it would
+  // have being just: var stats = expand(paths, callback.bind(fs, fs.stats))
+  var stats = expand(paths, function(path) {
+    return map(callback(fs.stat, path), function(stats) {
+      stats.toString = path.toString.bind(path)
+      return stats
+    })
+  })
+  // Filter & map file paths.
+  var files = map(filter(stats, function($) { return $.isFile() }), String)
+  // Filter & map directory paths.
+  var dirs = map(filter(stats, function($) { return $.isDirectory() }), String)
+
+  // Return concatination of lstree-s for each dir, files and given path.
+  return concat(expand(dirs, lstree), files, root)
+}
+```
 
 ## Install
 
     npm install callback-reduce
+
+
+[reducers]:https://github.com/Gozala/reducers
