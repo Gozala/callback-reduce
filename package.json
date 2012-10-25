@@ -2,7 +2,7 @@
   "name": "callback-reduce",
   "id": "callback-reduce",
   "version": "0.0.1",
-  "description": "Reducible abstraciton for callbacks",
+  "description": "Callbacks made reducible",
   "keywords": [
     "callback",
     "reduce",
