@@ -7,7 +7,9 @@
     "callback",
     "reduce",
     "reducible",
-    "stream"
+    "stream",
+    "promise",
+    "eventual"
   ],
   "author": "Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)",
   "homepage": "https://github.com/Gozala/callback-reduce",
@@ -23,7 +25,7 @@
     "test": ">=0.4.4",
     "repl-utils": ">=1.0.0"
   },
-  "main": "./callback-reduce.js",
+  "main": "./callback.js",
   "scripts": {
     "test": "node test/test-all.js",
     "repl": "node node_modules/repl-utils"

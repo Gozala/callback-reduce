@@ -20,8 +20,9 @@ var callback = function callback(f/*, ...params*/) {
   var params = slicer.call(arguments, 1)
   var self = this || f
   return convert(void(0), function(_, next, initial) {
-    f.apply(self, params.concat(function(e/*, ...data*/) {
+    f.apply(self, params.concat(function(e, data) {
       if (e) next(end(), next(error(e), initial))
+      else if (arguments.length === 2) accumulate(data, next, initial)
       else accumulate(slicer.call(arguments, 1), next, initial)
     }))
   })
