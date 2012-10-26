@@ -107,8 +107,8 @@ function lstree(root) {
   // Filter & map directory paths.
   var dirs = map(filter(stats, function($) { return $.isDirectory() }), String)
 
-  // Return concatination of lstree-s for each dir, files and given path.
-  return concat(expand(dirs, lstree), files, root)
+  // Return concatination given path, file paths, and all the nested paths.
+  return concat(root, files, expand(dirs, lstree))
 }
 ```
 
