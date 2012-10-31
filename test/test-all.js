@@ -1,6 +1,6 @@
 "use strict";
 
-var test = require("./helper")
+var test = require("reducers/test/util/test")
 var callback = require("../callback")
 var reduce = require("reducers/reduce")
 var map = require("reducers/map")
