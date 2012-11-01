@@ -37,6 +37,6 @@
     }
   ],
   "dependencies": {
-    "reducers": "~0.5.0"
+    "reducers": "git://github.com/Gozala/reducers.git#experiment/future"
   }
 }
