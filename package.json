@@ -1,7 +1,7 @@
 {
   "name": "callback-reduce",
   "id": "callback-reduce",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Callbacks made reducible",
   "keywords": [
     "callback",
@@ -37,6 +37,6 @@
     }
   ],
   "dependencies": {
-    "reducers": "~0.1.4"
+    "reducers": "git://github.com/Gozala/reducers.git#experiment/future"
   }
 }
