@@ -1,7 +1,7 @@
 {
   "name": "callback-reduce",
   "id": "callback-reduce",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Callbacks made reducible",
   "keywords": [
     "callback",
@@ -37,6 +37,6 @@
     }
   ],
   "dependencies": {
-    "reducers": "~0.5.0"
+    "reducers": "~1.0.0"
   }
 }
