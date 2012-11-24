@@ -30,8 +30,8 @@ function sum(sequence) {
   }, 0)
 }
 
-fold(sum(15), console.log, "=>")            // => 15
-fold(sum([ 15, 3, 7 ]), console.log, "=>")  // => 25
+fold(sum(15), console.log.bind(0, "=>"))            // => 15 undefined
+fold(sum([ 15, 3, 7 ]), console.log.bind(0, "=>"))  // => 25 undefined
 ```
 
 But there are bunch of async APIs around that are designed in terms of:
@@ -48,7 +48,7 @@ function getPackageName(path, callback) {
   })
 }
 
-getPackageName("./package.json", console.log) // => "callback-reduce"
+getPackageName("./package.json", console.log) // => null "callback-reduce"
 ```
 
 Which is ok but not very composable and there is no simple to transform data.
@@ -66,7 +66,7 @@ var content = callback(fs.readFile, "./package.json")
 var json = map(map(content, String), JSON.parse)
 var name = map(json, function($) { return $.name })
 
-fold(name, console.log, "=>")     // => "callback-reduce"
+fold(name, console.log.bind(0, "=>"))     // => "callback-reduce" undefined
 ```
 
 And of course it's lazy and compasable with rest of the API that reducers
@@ -78,7 +78,7 @@ var print = require("reducers/debug/print")
 var fs = require("fs")
 var path = require("path")
 
-var callback = require("./callback")
+var callback = require("callback-reduce")
 var expand = require("reducers/expand")
 var map = require("reducers/map")
 var filter = require("reducers/filter")
