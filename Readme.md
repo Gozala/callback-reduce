@@ -2,36 +2,36 @@
 
 [![Build Status](https://secure.travis-ci.org/Gozala/callback-reduce.png)](http://travis-ci.org/Gozala/callback-reduce)
 
-Reducers is a great abstraction for working with data sequences eventual or not.
-In fact it's great because API for working with data is same map/reduce
-regardless of weather it's sync or async.
+Reducers is a great abstraction for working with collections of values
+eventual or not. In fact it's great because API for working with data is
+same map/reduce regardless of weather it's sync or async.
 
 
 ```js
-var reduce = require("reducers/reduce")
+var fold = require("reducers/reduce")
 var filter = require("reducers/filter")
 var map = require("reducers/map")
 
 // Sync
-reduce(filte(map(array, JSON.parse), isCached), accumulate)
+fold(filter(map(array, JSON.parse), isCached), accumulate)
 
 // Async
-reduce(filte(map(stream, JSON.parse), isCached), accumulate)
+fold(filter(map(stream, JSON.parse), isCached), accumulate)
 ```
 
 Another cool concept about reducers is that allows you to work with non sequnce
 values with the same API. It just treats atomic vaules as sequences of themself.
 
 ```js
-var reduce = require("reducers/reduce")
+var fold = require("reducers/fold")
 function sum(sequence) {
-  return reduce(sequence, function(result, item) {
+  return fold(sequence, function(item, result) {
     return result + item
   }, 0)
 }
 
-reduce(sum(15), console.log, "=>")            // => 15
-reduce(sum([ 15, 3, 7 ]), console.log, "=>")  // => 25
+fold(sum(15), console.log, "=>")            // => 15
+fold(sum([ 15, 3, 7 ]), console.log, "=>")  // => 25
 ```
 
 But there are bunch of async APIs around that are designed in terms of:
@@ -60,13 +60,13 @@ reducible callbacks for callback styled functions!
 var fs = require("fs")
 var map = require("reducers/map")
 var callback = require("callback-reduce")
-var reduce = require("reducers/reduce")
+var fold = require("reducers/fold")
 
 var content = callback(fs.readFile, "./package.json")
 var json = map(map(content, String), JSON.parse)
 var name = map(json, function($) { return $.name })
 
-reduce(name, console.log, "=>")     // => "callback-reduce"
+fold(name, console.log, "=>")     // => "callback-reduce"
 ```
 
 And of course it's lazy and compasable with rest of the API that reducers
@@ -82,9 +82,8 @@ var callback = require("./callback")
 var expand = require("reducers/expand")
 var map = require("reducers/map")
 var filter = require("reducers/filter")
-var cache = require("reducers/cache")
 var concat = require("reducers/concat")
-var reduce = require("reducers/reduce")
+var cache = require("cache-reduce/cache")
 
 
 function lstree(root) {
@@ -110,6 +109,8 @@ function lstree(root) {
   // Return concatination given path, file paths, and all the nested paths.
   return concat(root, files, expand(dirs, lstree))
 }
+
+print(lstree("./"))
 ```
 
 ## Install

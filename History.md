@@ -1,5 +1,9 @@
 # Changes
 
+## 1.0.0 / 2012-11-24
+
+  - Upgrade to reducible@1.0 / reducers@2.0
+
 ## 0.1.1 / 2012-11-02
 
   - Update to reducers 1.0.0
