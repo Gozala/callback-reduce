@@ -1,7 +1,7 @@
 "use strict";
 
-var reducible = require("reducers/reducible")
-var accumulate = require("reducers/accumulate")
+var reducible = require("reducible/reducible")
+var reduce = require("reducible/reduce")
 var slicer = Array.prototype.slice
 
 
@@ -20,8 +20,8 @@ var callback = function callback(f/*, ...params*/) {
   return reducible(function(next, initial) {
     f.apply(self, params.concat(function(error, data) {
       if (error) next(error, initial)
-      else if (arguments.length === 2) accumulate(data, next, initial)
-      else accumulate(slicer.call(arguments, 1), next, initial)
+      else if (arguments.length === 2) reduce(data, next, initial)
+      else reduce(slicer.call(arguments, 1), next, initial)
     }))
   })
 }

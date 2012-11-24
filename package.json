@@ -22,13 +22,15 @@
     "url": "http://github.com/Gozala/callback-reduce/issues/"
   },
   "devDependencies": {
-    "test": ">=0.4.4",
-    "repl-utils": ">=1.0.0"
+    "test": "~0.6.0",
+    "repl-utils": "~2.0.1",
+    "reducers": "~2.0.0"
   },
   "main": "./callback.js",
   "scripts": {
-    "test": "node test/test-all.js",
-    "repl": "node node_modules/repl-utils"
+    "test": "node test/index.js",
+    "repl": "node node_modules/repl-utils",
+    "postinstall": "npm dedup"
   },
   "licenses": [
     {
@@ -37,6 +39,6 @@
     }
   ],
   "dependencies": {
-    "reducers": "~1.0.0"
+    "reducible": "~1.0.1"
   }
 }

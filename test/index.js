@@ -1,8 +1,9 @@
 "use strict";
 
-var test = require("reducers/test/util/test")
 var callback = require("../callback")
-var reduce = require("reducers/reduce")
+
+var test = require("reducers/test/util/test")
+
 var capture = require("reducers/capture")
 var map = require("reducers/map")
 var fs = require("fs")
