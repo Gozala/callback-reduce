@@ -8,7 +8,7 @@ same map/reduce regardless of weather it's sync or async.
 
 
 ```js
-var fold = require("reducers/reduce")
+var fold = require("reducers/fold")
 var filter = require("reducers/filter")
 var map = require("reducers/map")
 
