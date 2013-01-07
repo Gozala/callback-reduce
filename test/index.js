@@ -2,6 +2,7 @@
 
 var callback = require("../callback")
 var toArray = require("../toArray")
+var value = require("../value")
 
 var test = require("reducers/test/util/test")
 
@@ -70,6 +71,16 @@ exports["test toArray"] = function (assert, done) {
   toArray(entries, function (err, values) {
     assert.equal(err, null, "error is null")
     assert.deepEqual(values, fs.readdirSync("./"), "values is correct")
+    done()
+  })
+}
+
+exports["test value"] = function (assert, done) {
+  var stat = callback(fs.stat, ".")
+
+  value(stat, function (err, stat) {
+    assert.equal(err, null, "error is null")
+    assert.ok(stat.isDirectory(), "stat is a directory")
     done()
   })
 }
