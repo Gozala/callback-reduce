@@ -113,6 +113,19 @@ function lstree(root) {
 print(lstree("./"))
 ```
 
+## toArray
+
+Converts a reducible into an array
+
+```js
+var toArray = require("callback-reduce/toArray")
+
+toArray(reducible, function (err, array) {
+  /* do stuff */
+})
+
+```
+
 ## Install
 
     npm install callback-reduce
