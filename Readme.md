@@ -113,6 +113,40 @@ function lstree(root) {
 print(lstree("./"))
 ```
 
+## toArray
+
+Converts a reducible into an array
+
+```js
+var toArray = require("callback-reduce/toArray")
+var fs = require("fs")
+var callback = require("callback-reduce")
+
+var reducible = callback(fs.readdir, "./")
+
+toArray(reducible, function (err, files) {
+  /* do stuff */
+})
+```
+
+## value
+
+Converts a reducible into the first value it contains.
+
+Useful for reducibles that are effectively promises
+
+```
+var value = require("callback-reduce/value")
+var fs = require("fs")
+var callback = require("callback-reduce")
+
+var reducible = callback(fs.stat, ".")
+
+value(reducible, function (err, stat) {
+  /* do stuff */
+})
+```
+
 ## Install
 
     npm install callback-reduce
