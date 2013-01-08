@@ -113,17 +113,37 @@ function lstree(root) {
 print(lstree("./"))
 ```
 
-## toArray
+## passback
 
-Converts a reducible into an array
+Converts a reducible into a callback
 
 ```js
-var toArray = require("callback-reduce/toArray")
+var passback = require("callback-reduce/passback")
+var fs = require("fs")
+var callback = require("callback-reduce")
 
-toArray(reducible, function (err, array) {
+var reducible = callback(fs.stat, ".")
+
+passback(reducible, function (err, stat) {
   /* do stuff */
 })
+```
 
+Also takes an optional packing function, to pack the arguments.
+
+If you were to pass `Array` it would pack the entire content
+  of the reducible into an array.
+
+```js
+var passback = require("callback-reduce/passback")
+var fs = require("fs")
+var callback = require("callback-reduce")
+
+var reducible = callback(fs.readdir, "./")
+
+passback(reducible, Array, function (err, files) {
+  /* do stuff */
+})
 ```
 
 ## Install
