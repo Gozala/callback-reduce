@@ -1,6 +1,7 @@
 "use strict";
 
 var callback = require("../callback")
+var passback = require("../passback")
 
 var test = require("reducers/test/util/test")
 
@@ -62,6 +63,26 @@ exports["test error handling"] = test(function(assert) {
 
   assert(actual, ["default"], "errors has being handled")
 })
+
+exports["test passback"] = function (assert, done) {
+  var entries = callback(fs.readdir, "./")
+
+  passback(entries, Array, function (err, values) {
+    assert.equal(err, null, "error is null")
+    assert.deepEqual(values, fs.readdirSync("./"), "values is correct")
+    done()
+  })
+}
+
+exports["test passback singular"] = function (assert, done) {
+  var stat = callback(fs.stat, ".")
+
+  passback(stat, function (err, stat) {
+    assert.equal(err, null, "error is null")
+    assert.ok(stat.isDirectory(), "stat is a directory")
+    done()
+  })
+}
 
 
 if (require.main === module)
