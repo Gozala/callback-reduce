@@ -1,5 +1,10 @@
 # Changes
 
+## 1.1.0 / 2013-01-10
+
+  - `passback` API has being added to switch from reducibles back
+    to `callbacks`.
+
 ## 1.0.0 / 2012-11-24
 
   - Upgrade to reducible@1.0 / reducers@2.0
