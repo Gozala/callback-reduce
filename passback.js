@@ -1,55 +1,39 @@
+"use strict";
+
 var reduce = require("reducible/reduce")
 var end = require("reducible/end")
 var isError = require("reducible/is-error")
+var once = require("functional/once")
 
-module.exports = toArray
-
-function toArray(source, packer, callback) {
-    var ended = false
-
-    if (arguments.length === 2) {
-        callback = packer
-        packer = null
-    }
-
-    reduce(source, function(value, result) {
-        if (ended) {
-            return result
-        }
-
-        // If source is `end`-ed deliver accumulated `state`.
-        if (value === end) {
-            ended = true
-
-            var args = [null]
-
-            if (packer) {
-                args.push(packer.apply(null, result))
-            } else {
-                args = args.concat(result)
-            }
-
-            return safe(callback, args)
-        }
-        // If is source has an error, deliver that.
-        else if (isError(value)) {
-            ended = true
-
-            return safe(callback, [value])
-        }
-
-        result.push(value)
-
-        return result
-    }, [])
+function throws(f) {
+  return function() {
+    try { return f.apply(f, arguments) }
+    catch (error) { process.nextTick(function() { throw error }) }
+  }
 }
 
-function safe(callback, args) {
-    try {
-        return callback.apply(null, args)
-    } catch (err) {
-        process.nextTick(function () {
-            throw err
-        })
+function passback(source, pack, callback) {
+  if (!callback) {
+    callback = pack
+    pack = null
+  }
+
+  // Make sure that callback is called just once
+  callback = once(callback)
+
+  reduce(source, throws(function(value, result) {
+    // If there is an `error` mark `source` errored and pass 
+    if (isError(value)) callback(value)
+    // If source is `end`-ed pass back result to a callback.
+    else if (value === end) {
+      return pack ? callback(null, pack.apply(pack, result)) :
+             callback.apply(callback, [null].concat(result))
+    } else {
+      result.push(value)
     }
+
+    return result
+  }), [])
 }
+
+module.exports = passback
