@@ -39,7 +39,9 @@
     }
   ],
   "dependencies": {
-    "reducible": "~1.0.5",
     "functional": "~1.0.0"
+  },
+  "peerDependencies": {
+    "reducible": "~1.0.5"
   }
 }
